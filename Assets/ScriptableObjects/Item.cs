@@ -15,6 +15,8 @@ public class Item : ScriptableObject
     Sprite _sp;
     [SerializeField]
     int maxStack;
+    [SerializeField]
+    float harvestRadius;
 
     public int Id
     {
@@ -32,5 +34,10 @@ public class Item : ScriptableObject
     }
     public int MaxStack { 
         get {return maxStack;}
+    }
+
+    public float HarvestRadius
+    {
+        get { return harvestRadius;}
     }
 }

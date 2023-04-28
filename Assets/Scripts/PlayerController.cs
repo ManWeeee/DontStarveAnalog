@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using static UnityEditor.Progress;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,21 +12,23 @@ public class PlayerController : MonoBehaviour
     Vector3 _dir;
     Rigidbody2D _rb;
     Inventory _inventory;
-    CollectableItem _itemToPick;
+    List<CollectableItem> _itemToPick = new List<CollectableItem>();
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _inventory = GetComponent<Inventory>();
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && _itemToPick != null)
         {
-            Grab(_itemToPick);
+            Grab(_itemToPick[0]);
             PrintInventory();
         }
     }
+
     private void FixedUpdate()
     {
         Move();
@@ -35,21 +38,20 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<CollectableItem>(out CollectableItem item))
         {
-            _itemToPick = item;
-            Debug.Log(_itemToPick.Item.Name);
+            _itemToPick.Add(item);
+            Debug.Log(item.Item.Name);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _itemToPick = null;
+        _itemToPick.Remove(collision.gameObject.GetComponent<CollectableItem>());
     }
 
     private void Grab(CollectableItem item)
     {
-        _inventory.AddItem(item.Item, item.Amount);
-        Debug.Log("Item was grabbed");
-        item.Harvest();
+        int amo = _inventory.AddItem(item.Item, item.Amount);
+        item.Harvest(amo);
     }
 
     private void PrintInventory()
@@ -62,9 +64,7 @@ public class PlayerController : MonoBehaviour
         _dir.x = Input.GetAxisRaw("Horizontal");
         _dir.y = Input.GetAxisRaw("Vertical");
         if(_dir.magnitude > 1f)
-        {
             _dir.Normalize();
-        }
         Vector2 _movement = _dir.normalized * _speed * Time.deltaTime;
         _rb.MovePosition(_rb.position + _movement);
     }

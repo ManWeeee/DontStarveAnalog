@@ -13,16 +13,30 @@ public class CollectableItem : MonoBehaviour
     SpriteRenderer spr;
     Sprite sp;
 
-    private void Start()
+    private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
+
+        CircleCollider2D collider = gameObject.GetComponent<CircleCollider2D>();
+
+        collider.radius = item.HarvestRadius;
+
+        collider.isTrigger = true;
+    }
+
+    private void Start()
+    {
         sp = item.Sp;
         spr.sprite = sp;
     }
 
-    public void Harvest()
+    public void Harvest(int amount)
     {
-        Destroy(gameObject);
+        if (amount == 0)
+            Destroy(gameObject);
+        else
+            this.amount = amount;
+
         Debug.Log("Harvested");
     }
     

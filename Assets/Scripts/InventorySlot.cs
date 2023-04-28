@@ -6,7 +6,7 @@ public class InventorySlot : MonoBehaviour
 {
     Item item;
     int amount;
-    int maxStack = 10;
+    int maxStack;
 
     public InventorySlot(Item item, int amount)
     {
