@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
     {
         foreach (InventorySlot slot in _inventory)
         {
+            Debug.Log($"{slot.Item.Name} is in inventory id's {slot.Item.Id} and {newItem.Id}");
+            
             if (slot.Item.Id == newItem.Id)
                 if (slot.Amount + amount <= slot.MaxStack)
                 {
@@ -25,25 +27,35 @@ public class Inventory : MonoBehaviour
                     Debug.Log($"Item {newItem.Name} was succesfully added to existed slot of inventory and now its {slot.Amount}");
                     return;
                 }
-                    
                 else
                 {
-                    while (slot.Amount <= slot.MaxStack)
+                    while (slot.Amount < slot.MaxStack)
                     {
                         slot.Amount += 1;
                         amount -= 1;
                     }
+                    Debug.Log("MaxStack choosed");
                     if (_inventory.Count <= maxSize)
-                    {
+                    { 
                         _inventory.Add(new InventorySlot(newItem, amount));
+                        Debug.Log($"Added to {_inventory.Count} slot");
+                        return;
                     }
                     else
                     {
                         Instantiate(newItem, _playerController.transform.position - _offset, Quaternion.identity);
+                        return;
                     }
                 }
         }
-        _inventory.Add(new InventorySlot(newItem, 1));
+        _inventory.Add(new InventorySlot(newItem, amount));
         Debug.Log($"Item {newItem.Name} was succesfully added to inventory");
+    }
+    public void ShowInventory()
+    {
+        foreach(InventorySlot slot in _inventory)
+        {
+            Debug.Log($"Name: {slot.Item.Name}, Id: {slot.Item.Id}, Amount: {slot.Amount}");
+        }
     }
 }

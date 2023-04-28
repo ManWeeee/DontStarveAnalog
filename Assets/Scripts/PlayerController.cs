@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && _itemToPick != null)
         {
             Grab(_itemToPick);
+            PrintInventory();
         }
     }
     private void FixedUpdate()
@@ -49,6 +50,11 @@ public class PlayerController : MonoBehaviour
         _inventory.AddItem(item.Item, item.Amount);
         Debug.Log("Item was grabbed");
         item.Harvest();
+    }
+
+    private void PrintInventory()
+    {
+        _inventory.ShowInventory();
     }
 
     private void Move()

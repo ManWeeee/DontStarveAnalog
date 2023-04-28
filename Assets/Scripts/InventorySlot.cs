@@ -6,12 +6,13 @@ public class InventorySlot : MonoBehaviour
 {
     Item item;
     int amount;
-    int maxStack;
+    int maxStack = 10;
 
     public InventorySlot(Item item, int amount)
     {
         this.item = item;
         this.amount = amount;
+        maxStack = item.MaxStack;
     }
 
     public Item Item 

@@ -13,6 +13,8 @@ public class Item : ScriptableObject
     string name = "";
     [SerializeField]
     Sprite _sp;
+    [SerializeField]
+    int maxStack;
 
     public int Id
     {
@@ -27,5 +29,8 @@ public class Item : ScriptableObject
     public Sprite Sp
     {
         get { return _sp; }
+    }
+    public int MaxStack { 
+        get {return maxStack;}
     }
 }
