@@ -28,7 +28,7 @@ public class Item : ScriptableObject
         get { return name; }
     }
 
-    public Sprite GetSp
+    public Sprite GetSprite
     {
         get { return _sp; }
     }

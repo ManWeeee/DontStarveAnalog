@@ -5,6 +5,7 @@ using UnityEngine;
 using static UnityEditor.Progress;
 using System;
 
+[RequireComponent(typeof(Inventory))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] 
@@ -13,19 +14,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D _rb;
     Inventory _inventory;
 
-    private void Start()
+    private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
         _inventory = GetComponent<Inventory>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _inventory.ItemToPick)
-        {
-            _inventory.AddItem();
-            PrintInventory();
-        }
+        _inventory.OnInventoryChanged += PrintInventory;
     }
 
     private void FixedUpdate()
@@ -33,7 +30,7 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
-    private void PrintInventory()
+    private void PrintInventory(object sender, EventArgs e)
     {
         _inventory.ShowInventory();
     }

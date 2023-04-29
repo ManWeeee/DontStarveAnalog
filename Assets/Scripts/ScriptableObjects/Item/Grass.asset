@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a96ab7b945e235448adbc4f57e013ef, type: 3}
-  m_Name: WoodLog
+  m_Name: Grass
   m_EditorClassIdentifier: 
-  id: 1
-  name: Wood
-  _sp: {fileID: 21300000, guid: 4c4ba2cdc3d7d174c8209d5c593601f3, type: 3}
+  id: 0
+  name: Grass
+  _sp: {fileID: 21300000, guid: a760bcd5bbd4c154ab05228ea32ba622, type: 3}
   maxStack: 20
-  harvestRadius: 4
+  harvestRadius: 2

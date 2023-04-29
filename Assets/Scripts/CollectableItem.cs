@@ -26,7 +26,7 @@ public class CollectableItem : MonoBehaviour
 
     private void OnEnable()
     {
-        spr.sprite = item.GetSp;
+        spr.sprite = item.GetSprite;
     }
 
     public void Harvest()

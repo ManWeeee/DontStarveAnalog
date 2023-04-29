@@ -1,18 +1,31 @@
+using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
-    int maxSize = 2;
+    int maxSize = 15;
     private List<InventorySlot> _inventory = new List<InventorySlot>();
     private PlayerController _playerController;
     Vector2 _offset = new Vector3(0.0f, 0.5f);
     List<CollectableItem> _itemToPick = new List<CollectableItem>();
+    public event EventHandler OnInventoryChanged;
 
     private void Start()
     {
         _playerController = GetComponent<PlayerController>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && ItemToPick)
+        {
+            AddItem();
+            OnInventoryChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -58,7 +71,10 @@ public class Inventory : MonoBehaviour
         }
         return;
     }
-
+    public int GetMaxSize
+    {
+        get { return maxSize; }
+    }
     public bool MaxSize
     {
         get { return _inventory.Count < maxSize; }
@@ -68,7 +84,10 @@ public class Inventory : MonoBehaviour
     {
         get { return _itemToPick.Count > 0; }       
     }
-
+    public List<InventorySlot> inventory
+    { 
+        get { return _inventory; }
+    }
     public void ShowInventory()
     {
         foreach(InventorySlot slot in _inventory)
