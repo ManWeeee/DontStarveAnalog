@@ -12,10 +12,10 @@ public class InventorySlot : MonoBehaviour
     {
         this.item = item;
         this.amount = amount;
-        maxStack = item.MaxStack;
+        maxStack = item.GetMaxStack;
     }
 
-    public Item Item 
+    public Item GetItem 
     { 
         get { return item; }
     }
@@ -26,7 +26,7 @@ public class InventorySlot : MonoBehaviour
         set { amount = value; }
     }
 
-    public int MaxStack
+    public int GetMaxStack
     {
         get { return maxStack; }
     }

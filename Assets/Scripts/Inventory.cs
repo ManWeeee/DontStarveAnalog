@@ -4,57 +4,59 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    int maxSize = 3;
+    int maxSize = 2;
     private List<InventorySlot> _inventory = new List<InventorySlot>();
     private PlayerController _playerController;
     Vector2 _offset = new Vector3(0.0f, 0.5f);
+    List<CollectableItem> _itemToPick = new List<CollectableItem>();
 
     private void Start()
     {
         _playerController = GetComponent<PlayerController>();
     }
 
-    public int AddItem(Item newItem, int amount)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.TryGetComponent<CollectableItem>(out CollectableItem item))
+        {
+            _itemToPick.Add(item);
+            Debug.Log($"{item.GetItem.GetName} : {item.Amount}");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _itemToPick.Remove(collision.gameObject.GetComponent<CollectableItem>());
+    }
+
+    public void AddItem()
+    {
+        CollectableItem item = _itemToPick[0];
         foreach (InventorySlot slot in _inventory)
         {
-            if (slot.Item.Id == newItem.Id)
+            if (slot.GetItem.GetId == item.GetItem.GetId)
             {
-                if (slot.Amount + amount <= slot.MaxStack)
+                if (slot.Amount + item.Amount <= slot.GetMaxStack)
                 {
-                    slot.Amount += amount;
-                    amount = 0;
-                    return amount;
+                    slot.Amount += item.Amount;
+                    item.Amount = 0;
+                    item.Harvest();
+                    return;
                 }
                 else
                 {
-                    while (slot.Amount < slot.MaxStack)
-                    {
-                        slot.Amount += 1;
-                        amount -= 1;
-                    }
+                    item.Amount -= slot.GetMaxStack - slot.Amount;
+                    slot.Amount = slot.GetMaxStack;
                 }
             }
-        }
-        
-        while (amount > newItem.MaxStack && MaxSize)
-        {
-            _inventory.Add(new InventorySlot(newItem, newItem.MaxStack));
-            amount -= newItem.MaxStack;
         }
 
         if (MaxSize)
         {
-            _inventory.Add(new InventorySlot(newItem, amount));
-            amount = 0;
+            _inventory.Add(new InventorySlot(item.GetItem, item.Amount));
+            item.Harvest();
         }
-        return amount;
-/*        else
-        {
-            //CollectableItem tmp = new CollectableItem(newItem, amount);
-            //Use Prefab
-            //Instantiate(tmp, _playerController.GetComponent<Rigidbody2D>().position - _offset, Quaternion.identity);
-        }*/
+        return;
     }
 
     public bool MaxSize
@@ -62,9 +64,14 @@ public class Inventory : MonoBehaviour
         get { return _inventory.Count < maxSize; }
     }
 
+    public bool ItemToPick
+    {
+        get { return _itemToPick.Count > 0; }       
+    }
+
     public void ShowInventory()
     {
         foreach(InventorySlot slot in _inventory)
-            Debug.Log($"Name: {slot.Item.Name}, Id: {slot.Item.Id}, Amount: {slot.Amount}");
+            Debug.Log($"Name: {slot.GetItem.GetName}, Id: {slot.GetItem.GetId}, Amount: {slot.Amount}");
     }
 }

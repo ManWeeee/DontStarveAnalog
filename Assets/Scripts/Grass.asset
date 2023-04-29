@@ -16,3 +16,4 @@ MonoBehaviour:
   name: Grass
   _sp: {fileID: 21300000, guid: a760bcd5bbd4c154ab05228ea32ba622, type: 3}
   maxStack: 20
+  harvestRadius: 4

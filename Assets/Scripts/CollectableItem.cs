@@ -11,36 +11,31 @@ public class CollectableItem : MonoBehaviour
     [SerializeField]
     private int amount = 1;
     SpriteRenderer spr;
-    Sprite sp;
+
 
     private void Awake()
     {
+        if(amount > item.GetMaxStack) 
+            amount = item.GetMaxStack;
         spr = GetComponent<SpriteRenderer>();
 
-        CircleCollider2D collider = gameObject.GetComponent<CircleCollider2D>();
-
-        collider.radius = item.HarvestRadius;
-
+        CircleCollider2D collider = GetComponent<CircleCollider2D>();
+        collider.radius = item.GetHarvestRadius;
         collider.isTrigger = true;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        sp = item.Sp;
-        spr.sprite = sp;
+        spr.sprite = item.GetSp;
     }
 
-    public void Harvest(int amount)
+    public void Harvest()
     {
-        if (amount == 0)
-            Destroy(gameObject);
-        else
-            this.amount = amount;
-
+        Destroy(gameObject);
         Debug.Log("Harvested");
     }
     
-    public Item Item
+    public Item GetItem
     {
         get { return item; }
     }
@@ -48,5 +43,6 @@ public class CollectableItem : MonoBehaviour
     public int Amount
     {
         get { return amount; }
+        set { amount = value; }
     }
 }

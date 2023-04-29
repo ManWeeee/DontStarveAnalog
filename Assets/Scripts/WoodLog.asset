@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   name: Wood
-  _sp: {fileID: 0}
-  maxStack: 0
-  harvestRadius: 0
+  _sp: {fileID: 21300000, guid: 4c4ba2cdc3d7d174c8209d5c593601f3, type: 3}
+  maxStack: 20
+  harvestRadius: 4

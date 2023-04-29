@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     Vector3 _dir;
     Rigidbody2D _rb;
     Inventory _inventory;
-    List<CollectableItem> _itemToPick = new List<CollectableItem>();
 
     private void Start()
     {
@@ -22,9 +21,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _itemToPick != null)
+        if (Input.GetKeyDown(KeyCode.Space) && _inventory.ItemToPick)
         {
-            Grab(_itemToPick[0]);
+            _inventory.AddItem();
             PrintInventory();
         }
     }
@@ -32,26 +31,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<CollectableItem>(out CollectableItem item))
-        {
-            _itemToPick.Add(item);
-            Debug.Log(item.Item.Name);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _itemToPick.Remove(collision.gameObject.GetComponent<CollectableItem>());
-    }
-
-    private void Grab(CollectableItem item)
-    {
-        int amo = _inventory.AddItem(item.Item, item.Amount);
-        item.Harvest(amo);
     }
 
     private void PrintInventory()
@@ -65,7 +44,7 @@ public class PlayerController : MonoBehaviour
         _dir.y = Input.GetAxisRaw("Vertical");
         if(_dir.magnitude > 1f)
             _dir.Normalize();
-        Vector2 _movement = _dir.normalized * _speed * Time.deltaTime;
+        Vector2 _movement = _dir * _speed * Time.deltaTime;
         _rb.MovePosition(_rb.position + _movement);
     }
 }
