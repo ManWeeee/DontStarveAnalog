@@ -12,27 +12,30 @@ public class PlayerController : MonoBehaviour
     float _speed;
     Vector3 _dir;
     Rigidbody2D _rb;
-    Inventory _inventory;
+    Vector3 mousePosition;
 
     private void Awake()
     {
-        _inventory = GetComponent<Inventory>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
-        _inventory.OnInventoryChanged += PrintInventory;
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
     }
 
     private void FixedUpdate()
     {
         Move();
-    }
-
-    private void PrintInventory(object sender, EventArgs e)
-    {
-        _inventory.ShowInventory();
     }
 
     private void Move()

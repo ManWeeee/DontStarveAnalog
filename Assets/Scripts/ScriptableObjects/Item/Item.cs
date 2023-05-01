@@ -14,30 +14,21 @@ public class Item : ScriptableObject
     [SerializeField]
     Sprite _sp;
     [SerializeField]
-    int maxStack;
+    int maxStack = 1;
     [SerializeField]
     float harvestRadius;
+    [SerializeField]
+    private int strength;
 
-    public int GetId
-    {
-        get { return id; }
-    }
+    public int GetId => id;
 
-    public string GetName
-    {
-        get { return name; }
-    }
+    public string GetName => name; 
 
-    public Sprite GetSprite
-    {
-        get { return _sp; }
-    }
-    public int GetMaxStack { 
-        get {return maxStack;}
-    }
+    public Sprite GetSprite => _sp;
 
-    public float GetHarvestRadius
-    {
-        get { return harvestRadius;}
-    }
+    public int GetMaxStack => maxStack;
+
+    public float GetHarvestRadius => harvestRadius;
+
+    public int GetStrength => strength;
 }

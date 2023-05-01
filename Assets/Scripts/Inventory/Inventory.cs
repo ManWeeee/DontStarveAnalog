@@ -9,14 +9,12 @@ public class Inventory : MonoBehaviour
 {
     int maxSize = 15;
     private List<InventorySlot> _inventory = new List<InventorySlot>();
-    private PlayerController _playerController;
-    Vector2 _offset = new Vector3(0.0f, 0.5f);
     List<CollectableItem> _itemToPick = new List<CollectableItem>();
     public event EventHandler OnInventoryChanged;
 
     private void Start()
     {
-        _playerController = GetComponent<PlayerController>();
+
     }
 
     private void Update()
@@ -64,7 +62,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        if (MaxSize)
+        if (!MaxSize)
         {
             _inventory.Add(new InventorySlot(item.GetItem, item.Amount));
             item.Harvest();
@@ -77,20 +75,15 @@ public class Inventory : MonoBehaviour
     }
     public bool MaxSize
     {
-        get { return _inventory.Count < maxSize; }
+        get { return _inventory.Count >= maxSize; }
     }
 
     public bool ItemToPick
     {
-        get { return _itemToPick.Count > 0; }       
+        get { return _itemToPick.Count > 0; }
     }
     public List<InventorySlot> inventory
-    { 
-        get { return _inventory; }
-    }
-    public void ShowInventory()
     {
-        foreach(InventorySlot slot in _inventory)
-            Debug.Log($"Name: {slot.GetItem.GetName}, Id: {slot.GetItem.GetId}, Amount: {slot.Amount}");
+        get { return _inventory; }
     }
 }

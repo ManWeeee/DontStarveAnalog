@@ -11,18 +11,28 @@ public class InventoryUISlot : MonoBehaviour
     Image icon;
     [SerializeField]
     Text number;
+    [SerializeField]
+    Text strength;
 
-    public void Visible(int amount)
+    public void Visible(InventorySlot item)
     {
         icon.color = new Color(255, 255, 255, 255);
+        icon.sprite = item.GetItem.GetSprite;
         number.enabled = true;
-        number.text = amount.ToString();
+        number.text = item.Amount.ToString();
+        if (item.GetItem.GetStrength > 0)
+        {
+            number.enabled = false;
+            strength.enabled = true;
+            strength.text = item.GetItem.GetStrength.ToString() + "%";
+        }
     }
 
     public void Invisible()
     {
         icon.color = new Color(0, 0, 0, 0);
         number.enabled = false;
+        strength.enabled = false;
     }
 
     public void ChangeIcon(Sprite sprite)

@@ -25,7 +25,7 @@ public class InventoryManager : MonoBehaviour
     {
        for (int i = 0; i < _inventory.inventory.Count; i++) 
        {
-            slots[i].Visible(_inventory.inventory[i].Amount);
+            slots[i].Visible(_inventory.inventory[i]);
             slots[i].ChangeIcon(_inventory.inventory[i].GetItem.GetSprite);
             /*slots[i].Invisible();*/
        }
